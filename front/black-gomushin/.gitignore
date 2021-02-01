@@ -25,3 +25,11 @@ yarn-error.log*
 # custom
 .eslintcache
 .eslintrc.json
+
+# keep
+!assets/.keep
+!components/.keep
+!hooks/.keep
+!pages/.keep
+!api/.keep
+!utils/.keep
