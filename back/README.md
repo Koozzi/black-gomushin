@@ -1,2 +1,1 @@
-# 검정고무신 Back-end
-test
+# 검정고무신 Back-End
