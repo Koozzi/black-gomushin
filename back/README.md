@@ -1,2 +1,3 @@
 # 검정고무신 Back-End
-test
+
+Django, DjangoRestFramework
