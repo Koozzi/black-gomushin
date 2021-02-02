@@ -1,7 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import LoginView from './pages/LoginView';
 
-function App() {
+const App = () => {
+  const isLogin = true;
   const loginRouter = (
     <>
       <Route path="/login" component={LoginView} />
@@ -19,8 +21,8 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>{loginRouter}</BrowserRouter>
+      <BrowserRouter>{isLogin ? loginRouter : serviceRouter}</BrowserRouter>
     </>
   );
-}
+};
 export default App;
