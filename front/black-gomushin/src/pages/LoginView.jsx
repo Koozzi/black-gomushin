@@ -2,15 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import IdInput from '../components/LoginView/Input/id';
 import PasswordInput from '../components/LoginView/Input/password';
+import LoginButton from '../components/LoginView/Button/login';
 
 const IdInputBox = styled(IdInput)`
   width: 60%;
   background-color: red;
 `;
 
-const PasswordInputbox = styled(PasswordInput)`
+const PasswordInputBox = styled(PasswordInput)`
   height: 300px;
 `;
+
+const LoginButtonBox = styled(LoginButton)``;
 
 const Container = styled.div`
   display: flex;
@@ -28,7 +31,8 @@ const LoginView = () => {
   return (
     <Container>
       <IdInputBox></IdInputBox>
-      <PasswordInputbox></PasswordInputbox>
+      <PasswordInputBox></PasswordInputBox>
+      <LoginButtonBox></LoginButtonBox>
     </Container>
   );
 };
