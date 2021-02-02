@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import GlobalStyle from './components/common/globalStyle';
 import LoginView from './pages/LoginView';
 
 const App = () => {
@@ -21,7 +22,10 @@ const App = () => {
 
   return (
     <>
-      <BrowserRouter>{isLogin ? loginRouter : serviceRouter}</BrowserRouter>
+      <BrowserRouter>
+        {isLogin ? loginRouter : serviceRouter}
+        <GlobalStyle />
+      </BrowserRouter>
     </>
   );
 };
