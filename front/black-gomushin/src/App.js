@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { StylesProvider } from '@material-ui/core';
 import GlobalStyle from './components/common/globalStyle';
 import LoginView from './pages/LoginView';
 
@@ -23,7 +24,7 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        {isLogin ? loginRouter : serviceRouter}
+        <StylesProvider injectFirst>{isLogin ? loginRouter : serviceRouter}</StylesProvider>
         <GlobalStyle />
       </BrowserRouter>
     </>
