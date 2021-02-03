@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import IdInput from '../components/LoginView/Input/id';
 import PasswordInput from '../components/LoginView/Input/password';
 import LoginButton from '../components/LoginView/Button/login';
+import SignUpButton from '../components/LoginView/Button/signUp';
+import Modal from '@material-ui/core/Modal';
 
 const IdInputBox = styled(IdInput)`
   width: 150px;
@@ -15,6 +17,12 @@ const PasswordInputBox = styled(PasswordInput)`
 const LoginButtonBox = styled(LoginButton)`
   width: 150px;
   background-color: skyblue;
+  color: white;
+`;
+
+const SignUpButtonBox = styled(SignUpButton)`
+  width: 150px;
+  background-color: pink;
   color: white;
 `;
 
@@ -54,11 +62,28 @@ const LoginView = () => {
     }
   };
 
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const body = <div>1</div>;
+
   return (
     <Container>
       <IdInputBox variant="outlined" onChange={idHandler}></IdInputBox>
       <PasswordInputBox variant="outlined" onChange={pwHandler}></PasswordInputBox>
-      <LoginButtonBox variant="outlined"></LoginButtonBox>
+      <LoginButtonBox></LoginButtonBox>
+      <div>
+        <SignUpButtonBox onClick={handleOpen}>Open Modal</SignUpButtonBox>
+        <Modal open={open} onClose={handleClose}>
+          {body}
+        </Modal>
+      </div>
     </Container>
   );
 };
