@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import Button from '@material-ui/core/Button';
 
-const loginButton = () => {
+const loginButton = forwardRef((props, ref) => {
   return (
     <>
-      <Button variant="outlined">Login</Button>
+      <Button {...props} ref={ref}>
+        Login
+      </Button>
     </>
   );
-};
+});
 
 export default loginButton;

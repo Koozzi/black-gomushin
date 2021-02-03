@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import TextField from '@material-ui/core/TextField';
 
-const idInput = () => {
+const idInput = forwardRef((props, ref) => {
   return (
     <>
-      <TextField id="outlined-search" label="id" variant="outlined" />
+      <TextField {...props} ref={ref} id="outlined-search" type="text" label="id" />
     </>
   );
-};
+});
 
 export default idInput;
