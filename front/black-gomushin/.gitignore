@@ -25,6 +25,7 @@ yarn-error.log*
 # custom
 .eslintcache
 .eslintrc.json
+.prettierrc
 
 # keep
 !assets/.keep

@@ -1,24 +1,33 @@
-import logo from "./logo.svg";
-import "./App.css";
+import React from 'react';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { StylesProvider } from '@material-ui/core';
+import GlobalStyle from './components/common/globalStyle';
+import LoginView from './pages/LoginView';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const App = () => {
+  const isLogin = true;
+  const loginRouter = (
+    <>
+      <Route path="/login" component={LoginView} />
+      <Redirect from="*" to="/login" />
+    </>
   );
-}
+
+  const serviceRouter = (
+    <>
+      <Switch>
+        <Route path="">hello</Route>
+      </Switch>
+    </>
+  );
+
+  return (
+    <>
+      <BrowserRouter>
+        <StylesProvider injectFirst>{isLogin ? loginRouter : serviceRouter}</StylesProvider>
+        <GlobalStyle />
+      </BrowserRouter>
+    </>
+  );
+};
 export default App;
