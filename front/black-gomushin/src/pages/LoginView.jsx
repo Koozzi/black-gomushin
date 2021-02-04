@@ -8,21 +8,21 @@ import Modal from '@material-ui/core/Modal';
 import InModal from '../components/LoginView/Div/modal';
 
 const IdInputBox = styled(IdInput)`
-  width: 150px;
+  width: 180px;
 `;
 
 const PasswordInputBox = styled(PasswordInput)`
-  width: 150px;
+  width: 180px;
 `;
 
 const LoginButtonBox = styled(LoginButton)`
-  width: 150px;
+  width: 180px;
   background-color: skyblue;
   color: white;
 `;
 
 const SignUpButtonBox = styled(SignUpButton)`
-  width: 150px;
+  width: 180px;
   background-color: pink;
   color: white;
 `;
@@ -42,25 +42,15 @@ const Container = styled.div`
 const LoginView = () => {
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
+  const [error, setError] = useState(false);
 
   const idHandler = (e) => {
-    if (id.length > 7) {
-      alert('아이디는 8자 이하입니다');
-      e.target.value = e.target.value.slice(0, 8);
-      setId(e.target.value);
-    } else {
-      setId(e.target.value);
-    }
+    setId(e.target.value);
+    e.target.value.length > 8 ? setError(true) : setError(false);
   };
 
   const pwHandler = (e) => {
-    if (pw.length > 9) {
-      alert('비밀번호는 10자 이하입니다');
-      e.target.value = e.target.value.slice(0, 10);
-      setPw(e.target.value);
-    } else {
-      setPw(e.target.value);
-    }
+    setPw(e.target.value);
   };
 
   const [open, setOpen] = useState(false);
@@ -79,11 +69,31 @@ const LoginView = () => {
     </>
   );
 
+  const submitHandler = () => {
+    if (id.length === 0 || pw.length === 0) {
+      alert('아이디 또는 비밀번호를 입력해 주세요');
+    } else {
+      // todo : 아이디 패스워드 api 요청 (get token)
+      console.log(id, pw);
+    }
+  };
+
   return (
     <Container>
-      <IdInputBox variant="outlined" onChange={idHandler}></IdInputBox>
-      <PasswordInputBox variant="outlined" onChange={pwHandler}></PasswordInputBox>
-      <LoginButtonBox></LoginButtonBox>
+      <IdInputBox
+        size="small"
+        variant="outlined"
+        onChange={idHandler}
+        error={error}
+        helperText={error ? '아이디는 8글자 이하입니다.' : ' '}
+      ></IdInputBox>
+      <PasswordInputBox
+        size="small"
+        variant="outlined"
+        onChange={pwHandler}
+        helperText=" "
+      ></PasswordInputBox>
+      <LoginButtonBox onClick={submitHandler}></LoginButtonBox>
       <SignUpButtonBox onClick={handleOpen}>Open Modal</SignUpButtonBox>
       <Modal open={open} onClose={handleClose}>
         {InModalBox}
