@@ -76,7 +76,6 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-passwd = os.environ['PASSWORD']
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -84,6 +83,7 @@ passwd = os.environ['PASSWORD']
 #     }
 # }
 
+passwd = os.environ['PASSWORD']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
