@@ -1,6 +1,10 @@
 FROM python:3.8
 
-RUN python3 -m pip install django djangorestframework mysqlclient
+RUN python3 -m pip install django\
+ djangorestframework\
+  mysqlclient\
+   djangorestframework-jwt\
+    djangorestframework_simplejwt
 
 WORKDIR /gomushin
 
