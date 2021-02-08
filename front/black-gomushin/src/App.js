@@ -3,9 +3,10 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { StylesProvider } from '@material-ui/core';
 import GlobalStyle from './components/common/globalStyle';
 import LoginView from './pages/LoginView';
+import { useSelector } from 'react-redux';
 
 const App = () => {
-  const isLogin = true;
+  const isLogin = useSelector((state) => state.user.isLogin);
   const loginRouter = (
     <>
       <Route path="/login" component={LoginView} />
@@ -24,7 +25,7 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <StylesProvider injectFirst>{isLogin ? loginRouter : serviceRouter}</StylesProvider>
+        <StylesProvider injectFirst>{isLogin ? serviceRouter : loginRouter}</StylesProvider>
         <GlobalStyle />
       </BrowserRouter>
     </>

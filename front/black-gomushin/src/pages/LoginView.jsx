@@ -7,6 +7,9 @@ import SignUpButton from '../components/LoginView/Button/signUp';
 import Modal from '@material-ui/core/Modal';
 import InModal from '../components/LoginView/Div/modal';
 import { postAxios } from '../utils/axios';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../actions/user';
 
 const IdInputBox = styled(IdInput)`
   width: 180px;
@@ -41,8 +44,11 @@ const Container = styled.div`
 `;
 
 const LoginView = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
+  const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
 
   const idHandler = (e) => {
@@ -53,8 +59,6 @@ const LoginView = () => {
   const pwHandler = (e) => {
     setPw(e.target.value);
   };
-
-  const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -79,8 +83,11 @@ const LoginView = () => {
         pw,
       };
       const res = await postAxios('users/', req);
-      // dispatch(login())
-      // history('/')
+      if (res.data) {
+        localStorage.setItem('token', res.data.token);
+        dispatch(login(res.data.token));
+      }
+      history.push('/');
     }
   };
 
