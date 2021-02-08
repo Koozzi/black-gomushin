@@ -47,7 +47,21 @@ def user_detail(request, username):
 def items(request):
     if request.method == 'GET':
         items = Item.objects.all()
-        serializer = UserSerializer(items, many=True)
+        serializer = ItemSerializer(items, many=True)
+        return Response(serializer.data) 
+
+# /wishlist/<user_id>
+@api_view(['GET'])
+def wanted_item(request, id):
+    if request.method == 'GET':
+        instances = WantedItem.objects.select_related('item').filter(username=id)
+
+        item_list = []
+        for instance in instances:
+            item = Item.objects.get(id=instance.item.id)
+            item_list.append(item)
+
+        serializer = ItemSerializer(item_list, many=True)
         return Response(serializer.data)
 
 @api_view(['GET', 'POST'])
@@ -55,12 +69,3 @@ def hello_world(request):
     if request.method == 'POST':
         return Response({"message": "Got some data!", "data": request.data})
     return Response({"message": "Hello, world!"})
-
-
-# class UserView(viewsets.ViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-
-# class ItemView(viewsets.ModelViewSet):
-#     queryset = Item.objects.all()
-#     serializer_class = ItemSerializer

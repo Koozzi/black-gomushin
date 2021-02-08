@@ -30,11 +30,11 @@ class Item(models.Model):
     
 
 class WantedItem(models.Model):
-    username = models.ManyToManyField(User)
+    username = models.ForeignKey(User, on_delete=models.CASCADE, default="")
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "{0} -> {1}".format(self.username, self.item)
+        return "{0} wants {1}".format(self.username, self.item)
 
 
 class BuySell(models.Model):
