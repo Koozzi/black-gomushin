@@ -6,6 +6,10 @@ import LoginButton from '../components/LoginView/Button/login';
 import SignUpButton from '../components/LoginView/Button/signUp';
 import Modal from '@material-ui/core/Modal';
 import InModal from '../components/LoginView/Div/modal';
+import { postAxios } from '../utils/axios';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../actions/user';
 
 const IdInputBox = styled(IdInput)`
   width: 180px;
@@ -40,8 +44,11 @@ const Container = styled.div`
 `;
 
 const LoginView = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
+  const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
 
   const idHandler = (e) => {
@@ -52,8 +59,6 @@ const LoginView = () => {
   const pwHandler = (e) => {
     setPw(e.target.value);
   };
-
-  const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -69,12 +74,21 @@ const LoginView = () => {
     </>
   );
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     if (id.length === 0 || pw.length === 0) {
       alert('아이디 또는 비밀번호를 입력해 주세요');
     } else {
-      // todo : 아이디 패스워드 api 요청 (get token)
-      console.log(id, pw);
+      const req = {
+        id,
+        pw,
+      };
+      const res = await postAxios('users/', req);
+      if (res.data) {
+        localStorage.setItem('token', res.data.token);
+        dispatch(login(res.data.token));
+      }
+      // TODO 로그인 실패 예외처리 추가
+      history.push('/');
     }
   };
 
