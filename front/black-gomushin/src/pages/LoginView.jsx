@@ -6,6 +6,7 @@ import LoginButton from '../components/LoginView/Button/login';
 import SignUpButton from '../components/LoginView/Button/signUp';
 import Modal from '@material-ui/core/Modal';
 import InModal from '../components/LoginView/Div/modal';
+import { postAxios } from '../utils/axios';
 
 const IdInputBox = styled(IdInput)`
   width: 180px;
@@ -69,12 +70,17 @@ const LoginView = () => {
     </>
   );
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     if (id.length === 0 || pw.length === 0) {
       alert('아이디 또는 비밀번호를 입력해 주세요');
     } else {
-      // todo : 아이디 패스워드 api 요청 (get token)
-      console.log(id, pw);
+      const req = {
+        id,
+        pw,
+      };
+      const res = await postAxios('users/', req);
+      // dispatch(login())
+      // history('/')
     }
   };
 
