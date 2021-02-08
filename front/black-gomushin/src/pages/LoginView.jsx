@@ -87,6 +87,7 @@ const LoginView = () => {
         localStorage.setItem('token', res.data.token);
         dispatch(login(res.data.token));
       }
+      // TODO 로그인 실패 예외처리 추가
       history.push('/');
     }
   };

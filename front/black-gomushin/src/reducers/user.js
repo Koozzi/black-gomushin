@@ -1,6 +1,7 @@
 import { LOGIN, LOGOUT } from '../actions/type';
 
 const getToken = () => {
+  // TODO localStorage Token valid check API
   return localStorage.getItem('token') ? true : false;
 };
 
