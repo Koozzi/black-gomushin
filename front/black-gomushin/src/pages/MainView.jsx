@@ -1,19 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
+import adImg from '../assets/img/sample-black.jpg';
 
 const MainView = () => {
   const Container = styled.div`
     display: flex;
-    background-color: yellow;
+    height: 100%;
+    flex-direction: cloumn;
+    justify-content: center;
   `;
 
-  const AD = styled.div`
-    background-color: pink;
+  const AdContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+    background-color: #e3ecf1;
+    height: 100%;
+  `;
+
+  const AD = styled.img`
+    width: 40%;
+    height: 60%;
   `;
 
   return (
     <Container>
-      <AD>ad-img</AD>
+      <AdContainer>
+        <AD src={adImg}></AD>
+      </AdContainer>
     </Container>
   );
 };
