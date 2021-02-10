@@ -46,6 +46,7 @@ def user_detail(request, username):
 # /items
 @api_view(['GET'])
 def items(request):
+    print(1)
     if request.method == 'GET':
         if "invalid_token" in validation_token(request).data:
             return Response(validation_token(request).data)
