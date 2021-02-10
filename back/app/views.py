@@ -8,6 +8,7 @@ from rest_framework.serializers import Serializer
 
 from .serializers import *
 from .models import *
+from .middleware import validation_token
 
 @api_view(['POST'])
 def registration_view(request):
@@ -46,6 +47,9 @@ def user_detail(request, username):
 @api_view(['GET'])
 def items(request):
     if request.method == 'GET':
+        if "invalid_token" in validation_token(request).data:
+            return Response(validation_token(request).data)
+        
         items = Item.objects.all()
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data) 
@@ -54,6 +58,9 @@ def items(request):
 @api_view(['GET'])
 def wanted_item(request, id):
     if request.method == 'GET':
+        if "invalid_token" in validation_token(request).data:
+            return Response(validation_token(request).data)
+            
         instances = WantedItem.objects.select_related('item').filter(username=id)
 
         item_list = []
