@@ -4,6 +4,10 @@ from rest_framework.response import Response
 def validation_token(request):
     if request.method == 'GET':
         request_header = request.META['HTTP_AUTHORIZATION']
+
+        if not request_header:
+            return Response({ "invalid_token": "Invalid Token" })
+
         _type, user_token = request_header.split()
         print("Request Token : ", user_token)
         
