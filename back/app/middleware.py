@@ -2,7 +2,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
 def validation_token(request):
-    if request.method == 'GET':
+    if request.method == 'GET' or request.method == 'POST':
 
         if 'HTTP_AUTHORIZATION' not in request.META:
             return Response({ "invalid_token": "Invalid Token" })

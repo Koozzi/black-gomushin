@@ -15,6 +15,7 @@ class RegisterationSerializer(serializers.ModelSerializer):
 
     def save(self):
         user = User(username = self.validated_data['username'])
+        print(user)
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
 
@@ -24,6 +25,11 @@ class RegisterationSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+class NewItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Item
+        fields = ['title', 'content', 'price', 'sell_username', 'size']
 
 
 class UserSerializer(serializers.ModelSerializer):
