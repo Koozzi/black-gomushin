@@ -29,3 +29,4 @@ def validation_token(request):
             }
 
         return Response(result)
+        
