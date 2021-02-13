@@ -1,10 +1,24 @@
 import { LOGIN, LOGOUT } from './type';
 
-export const login = (token) => ({
-  type: LOGIN,
-  payload: token,
-});
+const setToken = (token) => {
+  localStorage.setItem('token', token);
+};
 
-export const logout = () => ({
-  type: LOGOUT,
-});
+export const login = (token) => {
+  setToken(token);
+  return {
+    type: LOGIN,
+    payload: token,
+  };
+};
+
+const deleteToken = () => {
+  localStorage.removeItem('token');
+};
+
+export const logout = () => {
+  deleteToken();
+  return {
+    type: LOGOUT,
+  };
+};

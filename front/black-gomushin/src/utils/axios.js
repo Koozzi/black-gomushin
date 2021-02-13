@@ -8,7 +8,7 @@ axios.defaults.headers.common['Authorization'] = AUTH_TOKEN || null;
 export const getAxios = (reqUrl) =>
   axios
     .create({
-      baseURL: 'http://127.0.0.1:5000',
+      baseURL: 'http://13.125.216.179:8000/',
       method: 'get',
       timeout: 10000,
     })
@@ -17,7 +17,7 @@ export const getAxios = (reqUrl) =>
 export const postAxios = (reqUrl, reqData) =>
   axios
     .create({
-      baseURL: 'http://127.0.0.1:5000',
+      baseURL: 'http://13.125.216.179:8000/',
       method: 'post',
       timeout: 10000,
     })
