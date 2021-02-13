@@ -14,6 +14,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import refresh from '../../utils/refresh';
+import logout from '../../utils/logout';
 
 const useStyles = makeStyles((theme) => ({
   inputRoot: {
@@ -104,7 +106,7 @@ const Header = () => {
         </IconButton>
         <p>마이페이지</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={logout}>
         <IconButton color="inherit">
           <ExitToAppIcon />
         </IconButton>
@@ -118,7 +120,7 @@ const Header = () => {
       <AppBar position="static" style={{ background: '#9290dd' }}>
         <Toolbar>
           <IconButton color="inherit">
-            <HomeIcon />
+            <HomeIcon onClick={refresh} />
           </IconButton>
           <SearchBox>
             <SearchIconContainer>
@@ -144,7 +146,7 @@ const Header = () => {
               <AccountCircle />
             </IconButton>
             <IconButton color="inherit">
-              <ExitToAppIcon />
+              <ExitToAppIcon onClick={logout} />
             </IconButton>
           </SectionDesktop>
           <SectionMobile>
