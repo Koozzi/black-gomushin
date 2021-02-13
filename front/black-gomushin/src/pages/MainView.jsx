@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import adImg from '../assets/img/sample-black.jpg';
 import Header from '../components/common/header';
 import { getAxios } from '../utils/axios';
+import ItemList from '../components/MainView/Div/ItemList';
 
 const Container = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  flex-direction: cloumn;
+  flex-direction: column;
   justify-content: center;
 `;
 
@@ -26,16 +27,14 @@ const AD = styled.img`
 `;
 
 const MainView = () => {
-  const [data, setData] = useState({ items: [] });
+  const [data, setData] = useState([]);
+  const getItems = async () => {
+    const result = await getAxios('items/');
+    setData(result.data);
+  };
   useEffect(() => {
-    const getItems = async () => {
-      const result = await getAxios('items/');
-      console.log(result);
-      // setData(result.data);
-    };
     getItems();
   }, []);
-
   return (
     <>
       <Header></Header>
@@ -43,6 +42,7 @@ const MainView = () => {
         <AdContainer>
           <AD src={adImg}></AD>
         </AdContainer>
+        <ItemList>{data}</ItemList>
       </Container>
     </>
   );
