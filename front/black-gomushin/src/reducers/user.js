@@ -2,16 +2,12 @@ import { LOGIN, LOGOUT } from '../actions/type';
 
 const getToken = () => {
   // TODO localStorage Token valid check API
-  return localStorage.getItem('token') ? true : false;
-};
-
-const setToken = () => {
   return localStorage.getItem('token');
 };
 
 const initialState = {
   isLogin: getToken(),
-  token: getToken() ? setToken() : null,
+  token: getToken(),
 };
 
 const user = (state = initialState, action) => {

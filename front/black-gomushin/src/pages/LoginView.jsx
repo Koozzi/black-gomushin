@@ -79,12 +79,11 @@ const LoginView = () => {
       alert('아이디 또는 비밀번호를 입력해 주세요');
     } else {
       const req = {
-        id,
-        pw,
+        username: id,
+        password: pw,
       };
-      const res = await postAxios('users/', req);
+      const res = await postAxios('login/', req);
       if (res.data) {
-        localStorage.setItem('token', res.data.token);
         dispatch(login(res.data.token));
       }
       // TODO 로그인 실패 예외처리 추가
