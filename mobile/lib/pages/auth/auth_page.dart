@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AuthPage extends StatelessWidget {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -56,7 +56,7 @@ class AuthPage extends StatelessWidget {
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                          text: ' 이메일로 가입',
+                          text: ' 회원가입',
                           style: TextStyle(
                               color: ColorsZoo.fontColor,
                               fontWeight: FontWeight.bold)),
@@ -103,17 +103,17 @@ class AuthPage extends StatelessWidget {
         children: [
           TextFormField(
             style: TextStyle(color: ColorsZoo.fontColor),
-            controller: _emailController,
+            controller: _idController,
             decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: ColorsZoo.lineColor),
                 ),
-                labelText: "이메일",
+                labelText: "아이디",
                 labelStyle:
                     TextStyle(color: ColorsZoo.fontColor, fontSize: 12)),
             validator: (String value) {
               if (value.isEmpty) {
-                return "올바른 이메일을 입력해주세요.";
+                return "올바른 아이디 입력해주세요.";
               }
               return null;
             },
