@@ -4,6 +4,7 @@ import adImg from '../assets/img/sample-black.jpg';
 import Header from '../components/common/header';
 import { getAxios } from '../utils/axios';
 import ItemList from '../components/MainView/Div/ItemList';
+import Footer from '../components/common/footer';
 
 const Container = styled.div`
   display: flex;
@@ -44,6 +45,7 @@ const MainView = () => {
         </AdContainer>
         <ItemList>{data}</ItemList>
       </Container>
+      <Footer></Footer>
     </>
   );
 };
