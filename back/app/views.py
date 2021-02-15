@@ -56,18 +56,20 @@ def items(request):
         if "invalid_token" in validation_token(request).data:
             return Response(validation_token(request).data, status=status.HTTP_401_UNAUTHORIZED)
 
-        offset = int(request.query_params.get('offset'))
-        limit = int(request.query_params.get('limit')[:-1])
-
-        items = Item.objects.all()[offset:limit]
-        serializer = ItemSerializer(items, many=True)
+        try:
+            offset = int(request.query_params.get('offset'))
+            limit = int(request.query_params.get('limit')[:-1])
+            items = Item.objects.all()[offset:limit]
+            serializer = ItemSerializer(items, many=True)
+        except:
+            return Response({"Error message":"Wrong offset or limit"}, status=status.HTTP_404_NOT_FOUND)
 
         for data in serializer.data:
             username = User.objects.get(id=data['sell_username']).username
             data['sell_user_id'] = data['sell_username']
             data['sell_username'] = username
 
-        return Response(serializer.data) 
+        return Response(serializer.data, status=status.HTTP_200_OK) 
 
 
 # items/<int:pk>        
@@ -76,11 +78,16 @@ def item_detail(request, pk):
     if request.method == 'GET':
 
         if "invalid_token" in validation_token(request).data:
-            return Response(validation_token(request).data)
+            return Response(validation_token(request).data, status=status.HTTP_401_UNAUTHORIZED)
 
-        item = Item.objects.get(id=pk)
-        serializer = ItemSerializer(item)
+        try: 
+            item = Item.objects.get(id=pk)
+            item.view += 1
+            item.save()
+        except: 
+            return Response({"Error message" : "No Item number {0}".format(pk)}, status=status.HTTP_404_NOT_FOUND)
         
+        serializer = ItemSerializer(item)
         item_detail = serializer.data
         # serializer.data is a property of the class and therefore immutable
         # 새로운 dictionary에 복사해서 데이터를 처리한다.
@@ -91,7 +98,7 @@ def item_detail(request, pk):
         item_detail['sell_username'] = username
         item_detail['sell_user_id'] = user_id
 
-        return Response(item_detail)
+        return Response(item_detail, status=status.HTTP_200_OK)
 
 
 # 배포용은 아니다. 나중에 수정을 해야한다.
@@ -108,7 +115,7 @@ def new_item(request):
             serializer.save()
             return Response({"message": "정상적으로 등록이 됨."})
         else:
-            return Response({"message": "정확하게 입력하셈!!"})
+            return Response({"Error message": "정확하게 입력하셈!!"})
 
 
 # /wishlist/<user_id>
@@ -116,7 +123,7 @@ def new_item(request):
 def wanted_item(request, id):
     if request.method == 'GET':
         if "invalid_token" in validation_token(request).data:
-            return Response(validation_token(request).data)
+            return Response(validation_token(request).data, status=status.HTTP_401_UNAUTHORIZED)
             
         instances = WantedItem.objects.select_related('item').filter(username=id)
 
