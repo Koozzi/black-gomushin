@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, get_list_or_404
 
+from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, action
@@ -53,9 +54,12 @@ def items(request):
     if request.method == 'GET':
 
         if "invalid_token" in validation_token(request).data:
-            return Response(validation_token(request).data)
-        
-        items = Item.objects.all()
+            return Response(validation_token(request).data, status=status.HTTP_401_UNAUTHORIZED)
+
+        offset = int(request.query_params.get('offset'))
+        limit = int(request.query_params.get('limit')[:-1])
+
+        items = Item.objects.all()[offset:limit]
         serializer = ItemSerializer(items, many=True)
 
         for data in serializer.data:
