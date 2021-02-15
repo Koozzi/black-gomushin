@@ -58,8 +58,8 @@ def items(request):
 
         try:
             offset = int(request.query_params.get('offset'))
-            limit = int(request.query_params.get('limit')[:-1])
-            items = Item.objects.all()[offset:limit]
+            limit = int(request.query_params.get('limit'))
+            items = Item.objects.all()[offset:limit+offset]
             serializer = ItemSerializer(items, many=True)
         except:
             return Response({"Error message":"Wrong offset or limit"}, status=status.HTTP_404_NOT_FOUND)
