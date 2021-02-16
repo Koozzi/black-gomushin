@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import adImg from '../assets/img/sample-black.jpg';
 import Header from '../components/common/header';
-import { getAxios } from '../utils/axios';
 import ItemList from '../components/MainView/Div/ItemList';
 import Footer from '../components/common/footer';
 
@@ -19,7 +18,7 @@ const AdContainer = styled.div`
   justify-content: center;
   margin-top: 10%;
   background-color: #e3ecf1;
-  height: 100%;
+  height: 30%;
 `;
 
 const AD = styled.img`
@@ -27,26 +26,22 @@ const AD = styled.img`
   height: 60%;
 `;
 
+const Div = styled.div`
+  min-height: 101vh;
+`;
+
 const MainView = () => {
-  const [data, setData] = useState([]);
-  const getItems = async () => {
-    const result = await getAxios('items/');
-    setData(result.data);
-  };
-  useEffect(() => {
-    getItems();
-  }, []);
   return (
-    <>
+    <Div>
       <Header></Header>
       <Container>
         <AdContainer>
           <AD src={adImg}></AD>
         </AdContainer>
-        <ItemList>{data}</ItemList>
+        <ItemList></ItemList>
       </Container>
       <Footer></Footer>
-    </>
+    </Div>
   );
 };
 

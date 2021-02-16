@@ -7,13 +7,14 @@ const setHeader = () => {
   axios.defaults.headers.common['Authorization'] = `Bearer ${AUTH_TOKEN}` || null;
 };
 
-export const getAxios = (reqUrl) => {
+export const getAxios = (reqUrl, reqParams = {}) => {
   setHeader();
   return axios
     .create({
       baseURL: 'http://13.125.216.179:8000/',
       method: 'get',
       timeout: 10000,
+      params: reqParams,
     })
     .request({ url: reqUrl });
 };
