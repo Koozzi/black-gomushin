@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getAxios } from '../../../utils/axios';
+import ItemInfo from './ItemInfo';
 
 const ItemCard = styled.div`
-  width: 100%;
+  display: flex;
+  width: 80%;
+  margin: 3% 10%;
+  height: 300px;
+  background-color: #e3ecf1;
+  border-radius: 20px;
 `;
 
 const ItemImg = styled.img`
-  width: 10%;
+  flex: 2;
 `;
 
 const ItemList = () => {
@@ -21,7 +27,7 @@ const ItemList = () => {
     };
     const { data } = await getAxios('/items', params);
     setAllItem([...allItem, ...data]);
-    setOffset(offset + 5);
+    setOffset(offset + 7);
   };
 
   const checkScroll = () => {
@@ -49,8 +55,7 @@ const ItemList = () => {
         return (
           <ItemCard key={item.id}>
             <ItemImg src={item.imageurl}></ItemImg>
-            {item.id}번호
-            {item.price}원
+            <ItemInfo info={item}></ItemInfo>
           </ItemCard>
         );
       })}
