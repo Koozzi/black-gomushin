@@ -1,7 +1,9 @@
 import axios from "axios";
 
-// const api = axios.create({
-//   baseURL: "13.125.216.179:8000/",
-// });
+const appApi = axios.create({
+  baseURL: "http://13.125.216.179:8000/",
+  method: "post",
+});
 
-// export const LoginApi = api.get("login");
+export default appApi;
+// export const LoginApi = api.post("login/");
