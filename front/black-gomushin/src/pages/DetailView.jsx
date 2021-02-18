@@ -4,6 +4,7 @@ import Header from '../components/common/header';
 import Footer from '../components/common/footer';
 import MessageIcon from '@material-ui/icons/Message';
 import { useHistory } from 'react-router-dom';
+import refresh from '../utils/refresh';
 
 const DetailContainer = styled.div`
   display: flex;
@@ -39,27 +40,30 @@ const MessageIconBox = styled(MessageIcon)`
 
 const DetailView = ({ location: { state } }) => {
   const history = useHistory();
-  const item = state.item;
-  return (
-    <>
-      <Header></Header>
-      <DetailContainer>
-        <ItemImg src={item.imageurl}></ItemImg>
-        <DetailItem>
-          <div>{`${item.title}`}</div>
-          <div>{`${item.state}`}</div>
-          <div>{`${item.price}원`}</div>
-          <div>{`${item.content}`}</div>
-          <div>{`판매자${item.sell_username}`}</div>
-          <div>{`조회수 ${item.view}`}</div>
-          <div>{`사이즈 ${item.size}`}</div>
-          <div>{`${item.publish_date}`}</div>
-          <MessageIconBox onClick={() => history.push('/')}></MessageIconBox>
-        </DetailItem>
-      </DetailContainer>
-      <Footer></Footer>
-    </>
-  );
+  if (state) {
+    const item = state.item;
+    return (
+      <>
+        <Header></Header>
+        <DetailContainer>
+          <ItemImg src={item.imageurl}></ItemImg>
+          <DetailItem>
+            <div>{`${item.title}`}</div>
+            <div>{`${item.state}`}</div>
+            <div>{`${item.price}원`}</div>
+            <div>{`${item.content}`}</div>
+            <div>{`판매자${item.sell_username}`}</div>
+            <div>{`조회수 ${item.view}`}</div>
+            <div>{`사이즈 ${item.size}`}</div>
+            <div>{`${item.publish_date}`}</div>
+            <MessageIconBox onClick={() => history.push('/')}></MessageIconBox>
+          </DetailItem>
+        </DetailContainer>
+        <Footer></Footer>
+      </>
+    );
+  }
+  return refresh();
 };
 
 export default DetailView;
