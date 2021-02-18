@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import { getAxios } from '../../../utils/axios';
 import ItemInfo from './ItemInfo';
 
@@ -17,6 +18,7 @@ const ItemImg = styled.img`
 `;
 
 const ItemList = () => {
+  const history = useHistory();
   const [allItem, setAllItem] = useState([]);
   const [offset, setOffset] = useState(0);
 
@@ -27,7 +29,7 @@ const ItemList = () => {
     };
     const { data } = await getAxios('/items', params);
     setAllItem([...allItem, ...data]);
-    setOffset(offset + 7);
+    setOffset(offset + 5);
   };
 
   const checkScroll = () => {
@@ -53,7 +55,7 @@ const ItemList = () => {
     <div>
       {allItem.map((item) => {
         return (
-          <ItemCard key={item.id}>
+          <ItemCard onClick={() => history.push('/detail', { item })} key={item.id}>
             <ItemImg src={item.imageurl}></ItemImg>
             <ItemInfo info={item}></ItemInfo>
           </ItemCard>
