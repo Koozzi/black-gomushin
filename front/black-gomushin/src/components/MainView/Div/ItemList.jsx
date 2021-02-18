@@ -11,6 +11,11 @@ const ItemCard = styled.div`
   height: 300px;
   background-color: #e3ecf1;
   border-radius: 20px;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    background-color: #f5eeed;
+  }
 `;
 
 const ItemImg = styled.img`

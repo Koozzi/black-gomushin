@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from '../components/common/header';
 import Footer from '../components/common/footer';
+import MessageIcon from '@material-ui/icons/Message';
+import { useHistory } from 'react-router-dom';
 
 const DetailContainer = styled.div`
   display: flex;
@@ -27,7 +29,16 @@ const DetailItem = styled.div`
   height: 40vh;
 `;
 
+const MessageIconBox = styled(MessageIcon)`
+  color: red;
+  &:hover {
+    cursor: pointer;
+    transform: scale(3);
+  }
+`;
+
 const DetailView = ({ location: { state } }) => {
+  const history = useHistory();
   const item = state.item;
   return (
     <>
@@ -43,6 +54,7 @@ const DetailView = ({ location: { state } }) => {
           <div>{`조회수 ${item.view}`}</div>
           <div>{`사이즈 ${item.size}`}</div>
           <div>{`${item.publish_date}`}</div>
+          <MessageIconBox onClick={() => history.push('/')}></MessageIconBox>
         </DetailItem>
       </DetailContainer>
       <Footer></Footer>
