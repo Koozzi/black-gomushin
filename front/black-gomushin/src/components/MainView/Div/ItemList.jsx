@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import { getAxios } from '../../../utils/axios';
 import ItemInfo from './ItemInfo';
+import useInfinite from '../../../hooks/useInfinite';
 
 const ItemCard = styled.div`
   display: flex;
@@ -24,37 +24,7 @@ const ItemImg = styled.img`
 
 const ItemList = () => {
   const history = useHistory();
-  const [allItem, setAllItem] = useState([]);
-  const [offset, setOffset] = useState(0);
-
-  const getItems = async () => {
-    const params = {
-      offset,
-      limit: 5,
-    };
-    const { data } = await getAxios('/items', params);
-    setAllItem([...allItem, ...data]);
-    setOffset(offset + 5);
-  };
-
-  const checkScroll = () => {
-    const {
-      documentElement: { scrollTop, clientHeight, scrollHeight },
-    } = document;
-    if (scrollTop + clientHeight === scrollHeight) {
-      getItems();
-    }
-  };
-  useEffect(() => {
-    getItems();
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('scroll', checkScroll);
-    return () => {
-      window.removeEventListener('scroll', checkScroll);
-    };
-  });
+  const allItem = useInfinite();
 
   return (
     <div>
