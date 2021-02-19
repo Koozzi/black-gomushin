@@ -8,8 +8,8 @@ from ..middleware import validation_token
 from ..serializers import *
 from ..models import *
 
-import time
 import random
+import time
 
 @api_view(['GET'])
 def item_search(request):
@@ -53,19 +53,15 @@ def item_search(request):
                     return Response({"Error message":"'state' value must be 'sale' or 'progress' or 'sold'."}, status=status.HTTP_400_BAD_REQUEST)
                 
                 items = items.filter(state=state)
-
-            '''
-            __icontain -> 대소문자 알아서 비교
-            JorDan으로 검색을 해도, Jordan, JORDAN, jordan 등을 모두 검색할 수 있다.
-            '''
-            items = items.filter(
-                Q(title__icontains=keyword) |
-                Q(content__icontains=keyword)
-            )
             
-            cnt = items.count()
-            print(items)
+            if keyword:
+                items = items.filter(
+                    Q(title__icontains=keyword) |
+                    Q(content__icontains=keyword)
+                )
+            
             # 검색어에 해당하는 데이터가 없는 경우  
+            cnt = items.count()
             if cnt == 0:
                 return Response({"Error message":"No Item for your request"}, status=status.HTTP_404_NOT_FOUND)
 
