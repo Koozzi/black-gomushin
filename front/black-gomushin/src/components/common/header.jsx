@@ -121,6 +121,9 @@ const Header = () => {
   };
   const enterHandler = (e) => {
     if (e.key === 'Enter') {
+      if (history.location.pathname === '/search') {
+        window.location.href = '/search';
+      }
       history.push('/search', { content: search });
     }
   };

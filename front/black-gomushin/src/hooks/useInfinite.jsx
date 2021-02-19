@@ -11,8 +11,8 @@ const useInfinite = (newParams = {}) => {
       limit: 5,
     };
     const { data } = await getAxios('/search', { ...params, ...newParams });
-    setAllItem([...allItem, ...data]);
     setOffset(offset + 5);
+    setAllItem([...allItem, ...data]);
   };
 
   const checkScroll = () => {

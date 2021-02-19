@@ -56,7 +56,7 @@ const DetailView = ({ location: { state } }) => {
             <div>{`조회수 ${item.view}`}</div>
             <div>{`사이즈 ${item.size}`}</div>
             <div>{`${item.publish_date}`}</div>
-            <MessageIconBox onClick={() => history.push('/')}></MessageIconBox>
+            <MessageIconBox onClick={() => history.goBack()}></MessageIconBox>
           </DetailItem>
         </DetailContainer>
         <Footer></Footer>
