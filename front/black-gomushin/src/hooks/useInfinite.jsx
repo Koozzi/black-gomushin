@@ -10,7 +10,7 @@ const useInfinite = (newParams = {}) => {
       offset,
       limit: 5,
     };
-    const { data } = await getAxios('/items', { ...params, ...newParams });
+    const { data } = await getAxios('/search', { ...params, ...newParams });
     setAllItem([...allItem, ...data]);
     setOffset(offset + 5);
   };
