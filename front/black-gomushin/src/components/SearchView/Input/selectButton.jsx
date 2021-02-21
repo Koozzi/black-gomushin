@@ -5,13 +5,9 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 
-const SelectButton = ({ valueHandler }) => {
-  const [size, setSize] = useState('');
+const SelectButton = ({ valueHandler, itemSize }) => {
+  const [size, setSize] = useState(itemSize);
   const [open, setOpen] = useState(false);
-
-  const handleChange = (event) => {
-    setSize(event.target.value);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -33,7 +29,7 @@ const SelectButton = ({ valueHandler }) => {
           onClose={handleClose}
           onOpen={handleOpen}
           value={size}
-          onChange={handleChange}
+          onChange={valueHandler}
         >
           <MenuItem value={250}>250</MenuItem>
           <MenuItem value={255}>255</MenuItem>

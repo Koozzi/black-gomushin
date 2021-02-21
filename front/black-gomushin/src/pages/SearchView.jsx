@@ -5,6 +5,7 @@ import Header from '../components/common/header';
 import ItemInfo from '../components/MainView/Div/ItemInfo';
 import RadioButton from '../components/SearchView/Input/radioButton';
 import SelectButton from '../components/SearchView/Input/selectButton';
+import PriceInput from '../components/SearchView/Input/priceInput';
 import useInfinite from '../hooks/useInfinite';
 
 const ItemCard = styled.div`
@@ -34,12 +35,10 @@ const FilterBox = styled.div`
 `;
 
 const SearchView = ({ location: { state } }) => {
-  // keyword : 검색내용
-  // size : 270, ... (5단위)
-  // state : (sale, progress, sold)
-  // minprice, maxprice
   const [itemState, setItemState] = useState('');
   const [itemSize, setItemSize] = useState('');
+  const [itemMin, setItemMin] = useState(0);
+  const [itemMax, setItemMax] = useState(9000000);
 
   const radioHandler = (e) => {
     setItemState(e.target.value);
@@ -49,19 +48,35 @@ const SearchView = ({ location: { state } }) => {
     setItemSize(e.target.value);
   };
 
+  const minHandler = (e) => {
+    setItemMin(e.target.value);
+  };
+
+  const maxHandler = (e) => {
+    setItemMax(e.target.value);
+  };
+
   const history = useHistory();
-  const allItem = useInfinite({ keyword: state.content, size: 280, state: itemState });
+  const allItem = useInfinite({
+    keyword: state.content,
+    size: itemSize,
+    state: itemState,
+    minprice: itemMin,
+    maxprice: itemMax,
+  });
 
   return (
     <>
       <Header></Header>
       <FilterBox>
         <RadioButton valueHandler={radioHandler}></RadioButton>
-        <SelectButton valueHandler={sizeHandler}></SelectButton>
+        <SelectButton valueHandler={sizeHandler} test={itemSize}></SelectButton>
+        <PriceInput valueHandler={minHandler} inputLabel="최소금액"></PriceInput>
+        <PriceInput valueHandler={maxHandler} inputLabel="최대금액"></PriceInput>
       </FilterBox>
       <h5>현재 검색한 내용은</h5>
       <h5>
-        {state.content},{itemState},{itemSize}
+        {state.content},{itemState},{itemSize},{itemMin},{itemMax}
       </h5>
       <div>
         {allItem.map((item) => {
