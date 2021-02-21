@@ -1,6 +1,4 @@
 from rest_framework import serializers
-from rest_framework import fields
-from rest_framework.serializers import ModelSerializer
 from .models import User, Item, WantedItem, BuySell, BuyReservation
 
 
@@ -38,7 +36,14 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class UsernameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username']
+
+
 class ItemSerializer(serializers.ModelSerializer):
+    sell_username = UsernameSerializer(many=False, read_only=True)
     class Meta:
         model = Item
         fields = '__all__'

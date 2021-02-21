@@ -26,10 +26,12 @@ def item_search(request):
             maxprice = request.query_params.get('maxprice')
             size = request.query_params.get('size')
             state = request.query_params.get('state')
-            items = Item.objects.all()
+            items = Item.objects.select_related('sell_username')
 
             if minprice and maxprice:
+                
                 minprice, maxprice = int(minprice), int(maxprice)
+    
                 if minprice > maxprice:
                     return Response({"Error message" : "'minprice' value is larger than 'maxprice' value."}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -55,14 +57,17 @@ def item_search(request):
                 items = items.filter(state=state)
             
             if keyword:
-                items = items.filter(
-                    Q(title__icontains=keyword) |
-                    Q(content__icontains=keyword)
-                )
+                # items = items.filter(
+                #     Q(title__icontains=keyword) |
+                #     Q(content__icontains=keyword)
+                # )
+                item_title = items.filter(title__icontains=keyword)
+                item_content = items.filter(content__icontains=keyword)
+                items = item_title | item_content
             
-            # 검색어에 해당하는 데이터가 없는 경우  
-            cnt = items.count()
-            if cnt == 0:
+            # 검색어에 해당하는 데이터가 없는 경우
+            # https://medium.com/@bdv111/django%EC%97%90%EC%84%9C-exists-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-b3af4d387930
+            if not items.exists():
                 return Response({"Error message":"No Item for your request"}, status=status.HTTP_404_NOT_FOUND)
 
         except:
@@ -77,11 +82,6 @@ def item_search(request):
         except:
             return Response({"Error message":"Wrong offset or limit"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # limit값은 최대 20~30일 것 -> 성능에 크게 문제 없음
-        for data in serializer.data:
-            username = User.objects.get(id=data['sell_username']).username
-            data['sell_user_id'] = data['sell_username']
-            data['sell_username'] = username
 
         print("time :", time.time() - start)
         return Response(serializer.data, status=status.HTTP_200_OK)
