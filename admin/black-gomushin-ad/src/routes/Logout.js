@@ -8,7 +8,7 @@ const AppLogout = () => {
     }
     refresh();
   };
-  return <div onClick={onClick}>Logout</div>;
+  return <span onClick={onClick}>Logout</span>;
 };
 
 export default AppLogout;

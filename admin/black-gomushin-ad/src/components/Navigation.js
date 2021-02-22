@@ -7,7 +7,7 @@ const List = styled.ul`
   list-style: none;
 `;
 
-const Navigation = ({ isLoggedIn }) => {
+const Navigation = () => {
   return (
     <div>
       <span>Black Gomushin</span>
