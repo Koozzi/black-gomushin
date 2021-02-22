@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import appApi from "../api";
+import { postApi } from "../api";
 import refresh from "../Function/Refresh";
 
 const InputSpan = styled.form`
@@ -34,7 +34,7 @@ const AppLogin = () => {
       username: id,
       password: pw,
     };
-    const res = await appApi.post("login/", req);
+    const res = await postApi.loginApi(req);
     const {
       data: { token },
     } = res;
