@@ -5,6 +5,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+const FormControlBox = styled(FormControl)`
+  display: flex;
+  width: 100px;
+`;
+
 const SelectButton = ({ valueHandler }) => {
   const [size, setSize] = useState('');
   const [open, setOpen] = useState(false);
@@ -22,15 +27,9 @@ const SelectButton = ({ valueHandler }) => {
     valueHandler(e);
   };
 
-  const SizeContainer = styled.div`
-    &. MuiFormControl-root {
-      width: 100px;
-    }
-  `;
-
   return (
-    <SizeContainer>
-      <FormControl>
+    <div>
+      <FormControlBox>
         <InputLabel id="demo-controlled-open-select-label">size</InputLabel>
         <Select
           labelId="demo-controlled-open-select-label"
@@ -48,8 +47,8 @@ const SelectButton = ({ valueHandler }) => {
           <MenuItem value={265}>265</MenuItem>
           <MenuItem value={270}>270</MenuItem>
         </Select>
-      </FormControl>
-    </SizeContainer>
+      </FormControlBox>
+    </div>
   );
 };
 

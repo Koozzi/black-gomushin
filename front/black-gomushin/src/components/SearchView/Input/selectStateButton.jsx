@@ -5,6 +5,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+const FormControlBox = styled(FormControl)`
+  display: flex;
+  width: 100px;
+`;
+
 const SelectStateButton = ({ valueHandler }) => {
   const [state, setState] = useState('');
   const [open, setOpen] = useState(false);
@@ -22,15 +27,9 @@ const SelectStateButton = ({ valueHandler }) => {
     valueHandler(e);
   };
 
-  const SizeContainer = styled.div`
-    &. MuiFormControl-root {
-      width: 100px;
-    }
-  `;
-
   return (
-    <SizeContainer>
-      <FormControl>
+    <div>
+      <FormControlBox>
         <InputLabel id="demo-controlled-open-select-label">상태</InputLabel>
         <Select
           labelId="demo-controlled-open-select-label"
@@ -46,8 +45,8 @@ const SelectStateButton = ({ valueHandler }) => {
           <MenuItem value={'progress'}>거래중</MenuItem>
           <MenuItem value={'sold'}>판매완료</MenuItem>
         </Select>
-      </FormControl>
-    </SizeContainer>
+      </FormControlBox>
+    </div>
   );
 };
 
