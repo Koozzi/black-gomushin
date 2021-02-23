@@ -35,10 +35,12 @@ const FilterBox = styled.div`
 `;
 
 const SearchView = ({ location: { state } }) => {
+  const history = useHistory();
   const [itemState, setItemState] = useState('');
   const [itemSize, setItemSize] = useState('');
   const [itemMin, setItemMin] = useState(0);
   const [itemMax, setItemMax] = useState(9000000);
+  const [isClick, setIsClick] = useState(false);
 
   const radioHandler = (e) => {
     setItemState(e.target.value);
@@ -56,15 +58,13 @@ const SearchView = ({ location: { state } }) => {
     setItemMax(e.target.value);
   };
 
-  const history = useHistory();
-  const allItem = useInfinite({
+  const allItem = useInfinite(isClick, {
     keyword: state.content,
     size: itemSize,
     state: itemState,
     minprice: itemMin,
     maxprice: itemMax,
   });
-
   return (
     <>
       <Header></Header>
@@ -76,18 +76,22 @@ const SearchView = ({ location: { state } }) => {
       </FilterBox>
       <h5>현재 검색한 내용은</h5>
       <h5>
-        {state.content},{itemState},{itemSize},{itemMin},{itemMax}
+        {state.content},{itemState},{itemSize},{itemMin},{itemMax},{String(isClick)}
       </h5>
-      <div>
-        {allItem.map((item) => {
+
+      <button onClick={() => setIsClick(!isClick)}></button>
+      {allItem.length !== 0 ? (
+        allItem.map((item) => {
           return (
             <ItemCard onClick={() => history.push('/detail', { item })} key={item.id}>
               <ItemImg src={item.imageurl}></ItemImg>
               <ItemInfo info={item}></ItemInfo>
             </ItemCard>
           );
-        })}
-      </div>
+        })
+      ) : (
+        <div>검색결과가 없습니다.</div>
+      )}
     </>
   );
 };
