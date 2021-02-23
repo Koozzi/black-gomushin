@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import getRandom from '../../../utils/random';
 
 const Tag = styled.div`
   background-color: #54cbff;
@@ -7,11 +8,13 @@ const Tag = styled.div`
   width: 150px;
   text-align: center;
   font-size: small;
+  font-weight: bold;
   height: 20px;
   box-shadow: 3px 3px 3px grey;
   color: white;
   margin: auto;
   margin-left: 10px;
+  background: ${(props) => props.background || 'black'};
 `;
 
 const TagContainer = styled.div`
@@ -23,6 +26,17 @@ const command = {
   minprice: '최소:',
   maxprice: '최대:',
 };
+
+const backgrounds = [
+  '#395f70',
+  '#ad4593',
+  '#e86190',
+  '#2c8956',
+  '#ddb649',
+  '#73c13c',
+  '#8f4ee5',
+  '#5449ed',
+];
 
 const changeWord = (str) => {
   return command[str] ? command[str] : '';
@@ -36,7 +50,13 @@ const Tags = ({ children }) => {
   return (
     <TagContainer>
       {tagArray.map((tag, idx) => {
-        return tag[1] !== '' && <Tag key={idx}>{changeWord(tag[0]) + tag[1]}</Tag>;
+        return (
+          tag[1] !== '' && (
+            <Tag background={getRandom(backgrounds)} key={idx}>
+              {changeWord(tag[0]) + tag[1]}
+            </Tag>
+          )
+        );
       })}
     </TagContainer>
   );
