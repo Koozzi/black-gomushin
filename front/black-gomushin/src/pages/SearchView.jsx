@@ -8,6 +8,7 @@ import SelectSizeButton from '../components/SearchView/Input/selectSizeButton';
 import PriceInput from '../components/SearchView/Input/priceInput';
 import useInfinite from '../hooks/useInfinite';
 import Tags from '../components/SearchView/Div/tag';
+import ApplyButton from '../components/SearchView/Button/applyButton';
 
 const ItemCard = styled.div`
   display: flex;
@@ -33,14 +34,15 @@ const FilterBox = styled.div`
   padding-top: 8%;
   padding-bottom: 3%;
   height: 50px;
-  border: 3px groove #9290dd;
-  border-radius: 10px;
 `;
 
 const TagBox = styled.div`
   display: flex;
   height: 30px;
-  border: 3px solid red;
+`;
+
+const ApplyButtonBox = styled.div`
+  margin-left: 2%;
 `;
 
 const SearchView = ({ location: { state } }) => {
@@ -68,7 +70,7 @@ const SearchView = ({ location: { state } }) => {
   };
 
   const tagProps = {
-    keyword: state.content,
+    keyword: state?.content,
     size: itemSize,
     state: itemState,
     minprice: itemMin,
@@ -87,7 +89,9 @@ const SearchView = ({ location: { state } }) => {
         <PriceInput valueHandler={maxHandler} inputLabel="최대금액"></PriceInput>
       </FilterBox>
       <TagBox>
-        <button onClick={() => setIsClick(!isClick)}></button>
+        <ApplyButtonBox onClick={() => setIsClick(!isClick)}>
+          <ApplyButton></ApplyButton>
+        </ApplyButtonBox>
         <Tags>{tagProps}</Tags>
       </TagBox>
 

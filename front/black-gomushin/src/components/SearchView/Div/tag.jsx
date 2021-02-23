@@ -51,7 +51,8 @@ const Tags = ({ children }) => {
     <TagContainer>
       {tagArray.map((tag, idx) => {
         return (
-          tag[1] !== '' && (
+          tag[1] !== '' &&
+          tag[1] !== undefined && (
             <Tag background={getRandom(backgrounds)} key={idx}>
               {changeWord(tag[0]) + tag[1]}
             </Tag>
