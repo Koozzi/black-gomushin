@@ -51,7 +51,7 @@ const ItemInfo = ({ info }) => {
       <ItemState>{info.state}</ItemState>
       <ItemTitle>{info.title}</ItemTitle>
       <SellerContainer>
-        <ItemSeller>@{info.sell_username}</ItemSeller>
+        <ItemSeller>@{info.sell_username.username}</ItemSeller>
         <ItemPrice>{info.price}원</ItemPrice>
       </SellerContainer>
       <ItemDate>{info.publish_date}</ItemDate>
