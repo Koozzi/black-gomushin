@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/common/header';
 import ItemInfo from '../components/MainView/Div/ItemInfo';
-import RadioButton from '../components/SearchView/Input/radioButton';
-import SelectButton from '../components/SearchView/Input/selectButton';
+import SelectStateButton from '../components/SearchView/Input/selectStateButton';
+import SelectSizeButton from '../components/SearchView/Input/selectSizeButton';
 import PriceInput from '../components/SearchView/Input/priceInput';
 import useInfinite from '../hooks/useInfinite';
 
@@ -69,8 +69,8 @@ const SearchView = ({ location: { state } }) => {
     <>
       <Header></Header>
       <FilterBox>
-        <RadioButton valueHandler={radioHandler}></RadioButton>
-        <SelectButton valueHandler={sizeHandler} test={itemSize}></SelectButton>
+        <SelectStateButton valueHandler={radioHandler}></SelectStateButton>
+        <SelectSizeButton valueHandler={sizeHandler}></SelectSizeButton>
         <PriceInput valueHandler={minHandler} inputLabel="최소금액"></PriceInput>
         <PriceInput valueHandler={maxHandler} inputLabel="최대금액"></PriceInput>
       </FilterBox>
