@@ -1,19 +1,20 @@
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token
 
-from . import views
+from .views_item import views_item
+from .views_user import views_user
+from .views_search import views_search
 
 urlpatterns = [
-    path('register/', views.registration_view, name="register"),
+    path('register/', views_user.registration_view, name="register"),
     path('login/', obtain_auth_token, name="login"),
-    path('hello/', views.hello_world, name="hello"),
+    path('users/', views_user.users, name="users"),
+    path('users/<str:username>/', views_user.user_detail, name="user_detail"),
 
-    path('users/', views.users, name="users"),
-    path('users/<str:username>/', views.user_detail, name="user_detail"),
+    path('items/', views_item.items, name="items"),
+    path('items/<int:pk>/', views_item.item_detail, name="item_detail"),
+    path('wishlist/<int:id>/', views_item.wanted_item, name="wish_list"),
+    path('newitem/', views_item.new_item, name="new_item"),
 
-    path('items/', views.items, name="items"),
-    path('items/<int:pk>', views.item_detail, name="item_detail"),
-    path('newitem/', views.new_item, name="new_item"),
-
-    path('wishlist/<int:id>/', views.wanted_item, name="wish_list"),
+    path('search/', views_search.item_search, name="item_search"),
 ]
