@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,21 +17,15 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import refresh from '../../utils/refresh';
 import logout from '../../utils/logout';
 
-const useStyles = makeStyles((theme) => ({
-  inputRoot: {
-    color: 'inherit',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
+const InputBaseBox = styled(InputBase)`
+  &.MuiInputBase-root {
+    color: inherit;
+  }
+  & .MuiInputBase-input {
+    padding: 8px 8px 8px 4px;
+    padding-left: 3em;
+  }
+`;
 
 const SearchBox = styled.div`
   position: relative;
@@ -44,7 +38,13 @@ const SearchBox = styled.div`
 `;
 
 const FlexGrowContainer = styled.div`
-  flex-grow: 1;
+  position: fixed;
+  width: 100%;
+`;
+
+const ToolbarBox = styled(Toolbar)`
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const SearchIconContainer = styled.div`
@@ -73,7 +73,7 @@ const SectionMobile = styled.div`
 `;
 
 const Header = () => {
-  const classes = useStyles();
+  const history = useHistory();
   const [popup, setPopup] = useState(null);
   const popupOpen = Boolean(popup);
 
@@ -115,24 +115,35 @@ const Header = () => {
     </Menu>
   );
 
+  const [search, setSearch] = useState('');
+  const searchHandler = (e) => {
+    setSearch(e.target.value);
+  };
+  const enterHandler = (e) => {
+    if (e.key === 'Enter') {
+      if (history.location.pathname === '/search') {
+        window.location.href = '/search';
+      }
+      history.push('/search', { content: search });
+    }
+  };
+
   return (
     <FlexGrowContainer>
       <AppBar position="static" style={{ background: '#9290dd' }}>
-        <Toolbar>
-          <IconButton color="inherit">
-            <HomeIcon onClick={refresh} />
+        <ToolbarBox>
+          <IconButton onClick={refresh} color="inherit">
+            <HomeIcon />
           </IconButton>
           <SearchBox>
             <SearchIconContainer>
               <SearchIcon />
             </SearchIconContainer>
-            <InputBase
+            <InputBaseBox
               placeholder="검색"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
               inputProps={{ 'aria-label': 'search' }}
+              onChange={searchHandler}
+              onKeyUp={enterHandler}
             />
           </SearchBox>
           <FlexGrowContainer />
@@ -145,8 +156,8 @@ const Header = () => {
             <IconButton color="inherit">
               <AccountCircle />
             </IconButton>
-            <IconButton color="inherit">
-              <ExitToAppIcon onClick={logout} />
+            <IconButton onClick={logout} color="inherit">
+              <ExitToAppIcon />
             </IconButton>
           </SectionDesktop>
           <SectionMobile>
@@ -155,7 +166,7 @@ const Header = () => {
               <ArrowDropDownCircleIcon />
             </IconButton>
           </SectionMobile>
-        </Toolbar>
+        </ToolbarBox>
       </AppBar>
       {detailMenu}
     </FlexGrowContainer>
