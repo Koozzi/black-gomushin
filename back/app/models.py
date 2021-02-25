@@ -20,7 +20,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 class Item(models.Model):
 
     title = models.CharField(max_length=100)
-    content = models.TextField(max_length=500)
+    content = models.CharField(max_length=500)
     price = models.IntegerField()
     view = models.IntegerField(default=0)
     publish_date = models.DateTimeField(auto_now=True)
@@ -31,29 +31,16 @@ class Item(models.Model):
 
     def __str__(self):
         return "[{0}] {1}".format(self.sell_username, self.title)
-    
 
-class WantedItem(models.Model):
-    username = models.ForeignKey(User, on_delete=models.CASCADE, default="")
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+class Search(models.Lookup):
+    lookup_name = 'search'
 
-    def __str__(self):
-        return "{0} wants {1}".format(self.username, self.item)
+    def as_mysql(self, compiler, connection):
+        lhs, lhs_params = self.process_lhs(compiler, connection)
+        rhs, rhs_params = self.process_rhs(compiler, connection)
+        params = lhs_params + rhs_params
 
+        return 'MATCH (%s) AGAINST (%s IN BOOLEAN MODE)' % (lhs, rhs), params
 
-class BuySell(models.Model):
-    buy_username = models.CharField(max_length=8)
-    sell_username = models.CharField(max_length=8)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return "{0}님이 {1}님의 {2}을(를) 구매했습니다.".format(self.buy_username, self.sell_username, self.item)
-
-
-class BuyReservation(models.Model):
-    buy_username = models.ForeignKey(User, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    accept = models.BooleanField(default=False)
-
-    def __str__(self):
-        return "[{0}] {1}님이 {2}상품에 구매신청을 하였습니다.".format(self.accept, self.buy_username, self.item)
+models.CharField.register_lookup(Search)
+models.TextField.register_lookup(Search)

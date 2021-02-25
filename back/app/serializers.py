@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Item, WantedItem, BuySell, BuyReservation
+from .models import *
 
 
 class RegisterationSerializer(serializers.ModelSerializer):
@@ -24,11 +24,6 @@ class RegisterationSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-class NewItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Item
-        fields = ['title', 'content', 'price', 'sell_username', 'size']
-
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,21 +42,8 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = '__all__'
-        
-
-class WantedItemSerializer(serializers.ModelSerializer):
+    
+class NewItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = WantedItem
-        fields = '__all__'
-
-
-class BuySellSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BuySell
-        fields = '__all__'
-
-
-class BuyReservationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BuyReservation
-        fields = '__all__'
+        model = Item
+        fields = ['title', 'content', 'price', 'sell_username', 'size']

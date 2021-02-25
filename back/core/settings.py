@@ -85,7 +85,7 @@ passwd = os.environ['PASSWORD']
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'gomushinDB',
+        'NAME': 'gomushin',
         'USER': 'admin',
         'PASSWORD': passwd,
         'HOST': 'database-2.cjmkvoqshoc8.ap-northeast-2.rds.amazonaws.com',

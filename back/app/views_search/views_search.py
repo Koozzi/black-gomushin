@@ -3,6 +3,7 @@ from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.serializers import Serializer
 
 from ..middleware import validation_token
 from ..serializers import *
@@ -19,7 +20,7 @@ def item_search(request):
 
         if "invalid_token" in validation_token(request).data:
             return Response(validation_token(request).data, status=status.HTTP_401_UNAUTHORIZED)
-
+    
         try:
             keyword = request.query_params.get('keyword')
             minprice = request.query_params.get('minprice')
@@ -57,19 +58,20 @@ def item_search(request):
                 items = items.filter(state=state)
             
             if keyword:
+                
                 # items = items.filter(
-                #     Q(title__icontains=keyword) |
-                #     Q(content__icontains=keyword)
+                #     Q(title__search=keyword) |
+                #     Q(content__search=keyword)
                 # )
-                item_title = items.filter(title__icontains=keyword)
-                item_content = items.filter(content__icontains=keyword)
-                items = item_title | item_content
-            
+                items = items.filter(
+                    Q(title__icontains=keyword) |
+                    Q(content__icontains=keyword)
+                )
+
             # 검색어에 해당하는 데이터가 없는 경우
             # https://medium.com/@bdv111/django%EC%97%90%EC%84%9C-exists-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-b3af4d387930
             if not items.exists():
                 return Response({"Error message":"No Item for your request"}, status=status.HTTP_404_NOT_FOUND)
-
         except:
             return Response({"Error message":"Invalid query parameter"}, status=status.HTTP_400_BAD_REQUEST)
         
@@ -77,6 +79,9 @@ def item_search(request):
             offset = int(request.query_params.get('offset'))
             limit = int(request.query_params.get('limit'))
             items = items[offset:limit+offset]
+
+            print(items.query)
+
             serializer = ItemSerializer(items, many=True)
 
         except:
