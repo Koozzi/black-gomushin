@@ -34,11 +34,6 @@ const ItemPrice = styled.div`
   font-weight: 600;
 `;
 
-const ItemSeller = styled.div`
-  flex: 1;
-  height: 60%;
-`;
-
 const ItemDate = styled.div`
   font-size: x-small;
   width: 100%;
@@ -51,7 +46,6 @@ const ItemInfo = ({ info }) => {
       <ItemState>{info.state}</ItemState>
       <ItemTitle>{info.title}</ItemTitle>
       <SellerContainer>
-        <ItemSeller>@{info.sell_username.username}</ItemSeller>
         <ItemPrice>{info.price}원</ItemPrice>
       </SellerContainer>
       <ItemDate>{info.publish_date}</ItemDate>
