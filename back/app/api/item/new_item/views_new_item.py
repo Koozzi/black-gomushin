@@ -1,67 +1,11 @@
-from rest_framework import status
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 
-from ..serializers import *
-from ..models import *
-from ..middleware import validation_token
+from app.models import Item, User
+from app.middleware import validation_token
 
-import time
 import random
-
-@api_view(['GET'])
-def items(request):
-    
-    if request.method == 'GET':
-
-        if "invalid_token" in validation_token(request).data:
-            return Response(validation_token(request).data, status=status.HTTP_401_UNAUTHORIZED)
-
-        try:
-            offset = int(request.query_params.get('offset'))
-            limit = int(request.query_params.get('limit'))
-            items = Item.objects.all()[offset:limit+offset]
-            serializer = ItemSerializer(items, many=True)
-
-        except:
-            return Response({"Error message":"Wrong offset or limit"}, status=status.HTTP_404_NOT_FOUND)
-
-        for data in serializer.data:
-            username = User.objects.get(id=data['sell_username']).username
-            data['sell_user_id'] = data['sell_username']
-            data['sell_username'] = username
-
-        return Response(serializer.data, status=status.HTTP_200_OK) 
-
-
-@api_view(['GET'])
-def item_detail(request, pk):
-    if request.method == 'GET':
-
-        if "invalid_token" in validation_token(request).data:
-            return Response(validation_token(request).data, status=status.HTTP_401_UNAUTHORIZED)
-
-        try:
-            item = Item.objects.get(id=pk)
-            item.view += 1
-            item.save()
-        
-        except: 
-            return Response({"Error message" : "No Item number {0}".format(pk)}, status=status.HTTP_404_NOT_FOUND)
-        
-        serializer = ItemSerializer(item)
-        item_detail = serializer.data
-        # serializer.data is a property of the class and therefore immutable
-        # 새로운 dictionary에 복사해서 데이터를 처리한다.
-
-        username = User.objects.get(id=serializer.data['sell_username']).username
-        user_id = serializer.data['sell_username']
-
-        item_detail['sell_username'] = username
-        item_detail['sell_user_id'] = user_id
-
-        return Response(item_detail, status=status.HTTP_200_OK)
-
 
 # 배포용은 아니다. 나중에 수정을 해야한다.
 # 현재 로컬에서 아이템을 쉽게 추가하기 위해서 만든 함수이다.

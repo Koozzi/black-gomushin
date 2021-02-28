@@ -1,25 +1,24 @@
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token
 
-from .views_item import views_item
-from .views_user import views_user
-from .views_search import views_search
-from .views_test import views_test 
+from .api.item.item_detail.views_item_detail import item_detail
+from .api.item.new_item.views_new_item import new_item
+from .api.item.search.views_search import search
+
+from .api.user.register.views_register import registration
+from .api.user.profile.views_profile import profile
+from .api.user.user_detail.views_user_detail import user_detail
+
 
 urlpatterns = [
-    path('register/', views_user.registration_view, name="register"),
+    path('register/', registration, name="register"),
     path('login/', obtain_auth_token, name="login"),
-    path('users/', views_user.users, name="users"),
-    path('users/<str:username>/', views_user.user_detail, name="user_detail"),
-    path('user/', views_user.user_detail, name="user_detail"),
-    path('profile/', views_user.profile, name="profile"),
+    
+    path('profile/', profile, name="profile"),
+    path('user/', user_detail, name="user_detail"),
 
-    path('items/', views_item.items, name="items"),
-    path('items/<int:pk>/', views_item.item_detail, name="item_detail"),
-    path('newitem/', views_item.new_item, name="new_item"),
-
-    path('search/', views_search.item_search, name="item_search"),
-
-    path('test/', views_test.fulltext_new_item, name="test"),
-    path('test_search/', views_test.fulltext_search, name="test_search"),
+    path('item/<int:pk>/', item_detail, name="item_detail"),
+    path('search/', search, name="search"),
+    
+    path('newitem/', new_item, name="new_item"),
 ]
