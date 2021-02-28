@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from admins.users.serializer_users import AllUserSerializer
+from admins.api.users.serializer_users import AllUserSerializer
 from admins.middleware import validation_token
 from app import models
 
