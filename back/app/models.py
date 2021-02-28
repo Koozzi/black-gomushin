@@ -7,6 +7,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
+from .django_fulltext_search import SearchManager
+
 class User(AbstractUser):
     phone = models.CharField(max_length=15)
 
@@ -18,6 +20,8 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 
 class Item(models.Model):
+
+    objects = SearchManager(['title', 'content'])    
 
     title = models.CharField(max_length=100)
     content = models.CharField(max_length=500)
@@ -44,3 +48,14 @@ class Search(models.Lookup):
 
 models.CharField.register_lookup(Search)
 models.TextField.register_lookup(Search)
+
+class Test(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.CharField(max_length=100)
+
+class FulltextTest(models.Model):
+
+    objects = SearchManager(['title', 'content'])
+
+    title = models.CharField(max_length=100)
+    content = models.CharField(max_length=100)

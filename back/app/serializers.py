@@ -24,21 +24,18 @@ class RegisterationSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-
 
 class UsernameSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username']
 
-
 class ItemSerializer(serializers.ModelSerializer):
-    sell_username = UsernameSerializer(many=False, read_only=True)
+    # sell_username = UsernameSerializer(many=False, read_only=True)
     class Meta:
         model = Item
         fields = '__all__'
@@ -47,3 +44,8 @@ class NewItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = ['title', 'content', 'price', 'sell_username', 'size']
+
+class TestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Test
+        fields = '__all__'
