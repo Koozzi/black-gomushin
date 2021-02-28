@@ -11,7 +11,7 @@ export const getAxios = (reqUrl, reqParams = {}) => {
   setHeader();
   return axios
     .create({
-      baseURL: 'http://13.125.216.179:8000/',
+      baseURL: 'http://15.164.94.14:8000/',
       method: 'get',
       timeout: 10000,
       params: reqParams,
@@ -23,7 +23,7 @@ export const postAxios = (reqUrl, reqData) => {
   setHeader();
   return axios
     .create({
-      baseURL: 'http://13.125.216.179:8000/',
+      baseURL: 'http://15.164.94.14:8000/',
       method: 'post',
       timeout: 10000,
     })
