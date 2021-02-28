@@ -3,6 +3,7 @@ from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.serializers import Serializer
 
 from ..middleware import validation_token
 from ..serializers import *
@@ -19,15 +20,30 @@ def item_search(request):
 
         if "invalid_token" in validation_token(request).data:
             return Response(validation_token(request).data, status=status.HTTP_401_UNAUTHORIZED)
-
+    
         try:
             keyword = request.query_params.get('keyword')
             minprice = request.query_params.get('minprice')
             maxprice = request.query_params.get('maxprice')
             size = request.query_params.get('size')
             state = request.query_params.get('state')
-            items = Item.objects.select_related('sell_username')
+            # items = Item.objects.select_related('sell_username')
+            items = Item.objects.all()
 
+            if keyword:
+                items = Item.objects.search('{0}*'.format(keyword)) & items
+                '''
+                items = Item.objects.search('{0}*'.format(keyword)) & items
+                MATCH(title, content) AGAINST('keyword*' in boolean mode)
+                데이터베이스에서 쿼리를 날렸을 때는 속도가 빨랐지만 장고에서 ORM으로 쿼리를 날릴 경우,
+                LIKE보다 살짝 느리다. 조금만 더 하면 성능 향상을 보일 듯하다. 
+                '''
+
+                # items = items.filter(
+                #     Q(title__icontains=keyword) |
+                #     Q(content__icontains=keyword)
+                # )
+            
             if minprice and maxprice:
                 
                 minprice, maxprice = int(minprice), int(maxprice)
@@ -55,21 +71,11 @@ def item_search(request):
                     return Response({"Error message":"'state' value must be 'sale' or 'progress' or 'sold'."}, status=status.HTTP_400_BAD_REQUEST)
                 
                 items = items.filter(state=state)
-            
-            if keyword:
-                # items = items.filter(
-                #     Q(title__icontains=keyword) |
-                #     Q(content__icontains=keyword)
-                # )
-                item_title = items.filter(title__icontains=keyword)
-                item_content = items.filter(content__icontains=keyword)
-                items = item_title | item_content
-            
+                
             # 검색어에 해당하는 데이터가 없는 경우
             # https://medium.com/@bdv111/django%EC%97%90%EC%84%9C-exists-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-b3af4d387930
             if not items.exists():
                 return Response({"Error message":"No Item for your request"}, status=status.HTTP_404_NOT_FOUND)
-
         except:
             return Response({"Error message":"Invalid query parameter"}, status=status.HTTP_400_BAD_REQUEST)
         
@@ -78,6 +84,7 @@ def item_search(request):
             limit = int(request.query_params.get('limit'))
             items = items[offset:limit+offset]
             serializer = ItemSerializer(items, many=True)
+            print(items.query)
 
         except:
             return Response({"Error message":"Wrong offset or limit"}, status=status.HTTP_400_BAD_REQUEST)

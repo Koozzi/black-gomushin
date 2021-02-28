@@ -63,23 +63,6 @@ def item_detail(request, pk):
         return Response(item_detail, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
-def wanted_item(request, id):
-    if request.method == 'GET':
-        if "invalid_token" in validation_token(request).data:
-            return Response(validation_token(request).data, status=status.HTTP_401_UNAUTHORIZED)
-            
-        instances = WantedItem.objects.select_related('item').filter(username=id)
-
-        item_list = []
-        for instance in instances:
-            item = Item.objects.get(id=instance.item.id)
-            item_list.append(item)
-
-        serializer = ItemSerializer(item_list, many=True)
-        return Response(serializer.data)
-
-
 # 배포용은 아니다. 나중에 수정을 해야한다.
 # 현재 로컬에서 아이템을 쉽게 추가하기 위해서 만든 함수이다.
 @api_view(['POST'])
@@ -89,47 +72,58 @@ def new_item(request):
         if "invalid_token" in validation_token(request).data:
             return Response(validation_token(request).data)
         
+        # Item.objects.all().delete()
+
         title_list = [
             'Mid White Shadow',
             'Jordan 1 Retro High OG CO.JP Midnight Navy',
             'Retro High Rookie of the Year',
             'Jordan 1 Retro High Clay Green',
-            'Nike x sacai Blazer Mid Black Grey'
+            'Nike x sacai Blazer Mid Black Grey',
+            'Please',
+            'Shape of you',
+            'ipad',
+            'django',
+            'jenkins'
         ]
         url_list = [
             'https://gomushin.s3.ap-northeast-2.amazonaws.com/jordan/Jordan+1+Mid+White+Shadow.png',
             'https://gomushin.s3.ap-northeast-2.amazonaws.com/jordan/Jordan+1+Retro+High+OG+CO.JP+Midnight+Navy.png',
             'https://gomushin.s3.ap-northeast-2.amazonaws.com/jordan/Jordan+1+Retro+High+Rookie+of+the+Year.png',
             'https://gomushin.s3.ap-northeast-2.amazonaws.com/jordan/Jordan+1+Retro+High+Clay+Green.png',
-            'https://gomushin.s3.ap-northeast-2.amazonaws.com/jordan/Nike+x+sacai+Blazer+Mid+Black+Grey.png'
+            'https://gomushin.s3.ap-northeast-2.amazonaws.com/jordan/Nike+x+sacai+Blazer+Mid+Black+Grey.png',
+            'https://gomushin.s3.ap-northeast-2.amazonaws.com/jordan/Jordan+1+Mid+White+Shadow.png',
+            'https://gomushin.s3.ap-northeast-2.amazonaws.com/jordan/Jordan+1+Retro+High+OG+CO.JP+Midnight+Navy.png',
+            'https://gomushin.s3.ap-northeast-2.amazonaws.com/jordan/Jordan+1+Retro+High+Rookie+of+the+Year.png',
+            'https://gomushin.s3.ap-northeast-2.amazonaws.com/jordan/Jordan+1+Retro+High+Clay+Green.png',
+            'https://gomushin.s3.ap-northeast-2.amazonaws.com/jordan/Nike+x+sacai+Blazer+Mid+Black+Grey.png',
         ]
         content_list = [
-            'This is a series of tutorials for Jenkins, Install and Configure, Automate the builds, CI/CD using Jenkins, Jenkins Pipeline as a Code, etc. Jordan',
+            'This is a series of tutorials for Jenkins',
             'This is a Part I Getting Started with Jenkins.',
             'We are talking of Devops build and release mechanism.',
-            'You know the code starts right away from the devel Jordan opment machine i.e. from your local machine and it must need some sort of version control in place to track the each and every change over a period of time.',
-            'A Version Control System(VCS) keep individual’s code in a consistent way by managing the replicas over the change.',
-            'So, your written code rea Jordan ch the centralized repository i.e. Source Code Management(SCM) using the Pull Request(PR) or some sort of merging technique.',
+            'You know the code starts right away from the devel ',
+            'A Version Control System(VCS) keep individual’s ',
+            'So, your written code rea Jordan ch the centralized ',
             'Git is widely used version control system in most of the projects.',
-            'Once your codebase is ready it Jordan can go through different environments like development, staging and production.',
-            'And, in between lot of configuration task need to be done i.e building a stuff, then deploying it, configuring softwares and tools, setting up the servers, monitoring and logging mechanism, prevention alerts, etc.',
-            ' The most of the t Jordan ask needs automation in place as it’s impossible to configure hundreds of thousands of machines manually.'
+            'Once your codebase is ready it Jordan can go through ',
+            'And, in between lot of configuration task need to ',
+            ' The most of the t Jordan ask needs automation in'
         ]
-        price_list = [100000,200000,300000,400000,500000,600000,700000,800000,900000,1000000]
-        seller_list = [1,2,3,4,5,6,7,8,9,10]
+
         size_list = [235, 240, 245, 250, 255, 260, 265, 270, 275, 280]
 
-        for _ in range(1):
-            title_url_idx = random.randrange(0,5)
+        for _ in range(900000):
+            title_url_idx = random.randrange(0,10)
             else_idx = random.randrange(0,10)
-
-            user = User.objects.get(id=seller_list[else_idx])
+            
+            user = User.objects.get(id=1)
 
             Item.objects.create(
                 title=title_list[title_url_idx],
                 imageurl=url_list[title_url_idx],
                 content = content_list[else_idx],
-                price = price_list[else_idx],
+                price = random.randrange(1,5555),
                 sell_username = user,
                 size = size_list[else_idx]
             )
