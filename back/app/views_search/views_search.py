@@ -5,9 +5,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.serializers import Serializer
 
-from ..middleware import validation_token
+# from ..middleware import validation_token
 from ..serializers import *
 from ..models import *
+
+from app.middleware import validation_token
 
 import random
 import time

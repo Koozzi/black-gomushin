@@ -1,7 +1,9 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
+from rest_framework import status
 
+from ..middleware import validation_token
 from ..serializers import *
 from ..models import *
 
@@ -25,19 +27,40 @@ def registration_view(request):
             data = serializer.errors
         return Response(data)
 
-
 @api_view(['GET'])
 def users(request):
     if request.method == 'GET':
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
 
+        if "invalid_token" in validation_token(request).data:
+            return Response(validation_token(request).data, status=status.HTTP_401_UNAUTHORIZED)
+
+        users = User.objects.all()
+        serializer = AllUserSerializer(users, many=True)
+        return Response(serializer.data)
 
 @api_view(['GET'])
-def user_detail(request, username):
+def profile(request):
     if request.method == 'GET':
-        user = User.objects.get(username=username)
+
+        token_result = validation_token(request).data
+        if "invalid_token" in token_result:
+            return Response(validation_token(request).data, status=status.HTTP_401_UNAUTHORIZED)
+
+        user_id = token_result['user_id']
+        user = User.objects.get(id=user_id)
         serializer = UserSerializer(user)
+
         return Response(serializer.data)
 
+@api_view(['GET'])
+def user_detail(request):
+    if request.method == 'GET':
+
+        if "invalid_token" in validation_token(request).data:
+            return Response(validation_token(request).data, status=status.HTTP_401_UNAUTHORIZED)
+
+        user_id = request.query_params.get('id')
+        user = User.objects.get(id=user_id)
+        serializer = UserSerializer(user)
+
+        return Response(serializer.data)

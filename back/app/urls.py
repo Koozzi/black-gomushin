@@ -11,6 +11,8 @@ urlpatterns = [
     path('login/', obtain_auth_token, name="login"),
     path('users/', views_user.users, name="users"),
     path('users/<str:username>/', views_user.user_detail, name="user_detail"),
+    path('user/', views_user.user_detail, name="user_detail"),
+    path('profile/', views_user.profile, name="profile"),
 
     path('items/', views_item.items, name="items"),
     path('items/<int:pk>/', views_item.item_detail, name="item_detail"),
@@ -20,4 +22,6 @@ urlpatterns = [
 
     path('test/', views_test.fulltext_new_item, name="test"),
     path('test_search/', views_test.fulltext_search, name="test_search"),
+
+    path('admins/users/', views_user.users, name="users"),
 ]

@@ -27,12 +27,12 @@ class RegisterationSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['id', 'username']
 
-class UsernameSerializer(serializers.ModelSerializer):
+class AllUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username']
+        fields = '__all__'
 
 class ItemSerializer(serializers.ModelSerializer):
     # sell_username = UsernameSerializer(many=False, read_only=True)
