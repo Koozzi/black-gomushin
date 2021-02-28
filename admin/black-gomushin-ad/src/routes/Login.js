@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { LoginApi } from "../api";
+import { postApi } from "../api";
+import refresh from "../Function/Refresh";
 
 const InputSpan = styled.form`
   align-items: center;
@@ -9,31 +11,46 @@ const InputSpan = styled.form`
   display: flex;
 `;
 
-const onChange = (event) => {
-  const {
-    target: { name, value },
-  } = event;
-  console.log(value);
-  if (name === "Account") {
-  }
-};
-
-const onSubmit = (event) => {
-  event.preventDefault();
-};
-
-const onClick = () => {
-  // console.log(LoginApi.value);
-};
-
 const AppLogin = () => {
+  const history = useHistory();
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
+
+  const onChange = (event) => {
+    const {
+      target: { name, value },
+    } = event;
+    if (name === "Account") {
+      setId(value);
+    }
+    if (name === "Password") {
+      setPw(value);
+    }
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    const req = {
+      username: id,
+      password: pw,
+    };
+    const res = await postApi.loginApi(req);
+    const {
+      data: { token },
+    } = res;
+    localStorage.setItem("Token", token);
+    if (token) {
+      history.push("/");
+    }
+    refresh();
+  };
+
+  // const onClick = () => {};
   return (
     <InputSpan onSubmit={onSubmit}>
       <input placeholder="ID" name="Account" onChange={onChange} />
       <input placeholder="Password" name="Password" onChange={onChange} />
-      <button onClick={onClick} type="submit">
-        로그인
-      </button>
+      <button type="submit">로그인</button>
     </InputSpan>
   );
 };

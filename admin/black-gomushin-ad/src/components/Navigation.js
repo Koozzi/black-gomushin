@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import AppLogout from "../routes/Logout";
 
 const List = styled.ul`
   list-style: none;
@@ -18,7 +19,7 @@ const Navigation = () => {
           <Link to="/items">Items</Link>
         </li>
         <li>
-          <Link to="/login">Login</Link>
+          <AppLogout />
         </li>
       </List>
     </div>
