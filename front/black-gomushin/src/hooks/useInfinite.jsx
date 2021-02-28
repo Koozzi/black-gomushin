@@ -21,8 +21,6 @@ const useInfinite = (isClick = true, newParams = {}) => {
         setAllItem([...allItem, ...data]);
         setOffset((offset) => offset + 5);
       }
-      setAllItem([...allItem, ...data]);
-      setOffset((offset) => offset + 5);
     } catch (error) {
       setAllItem([]);
       setOffset(0);
@@ -39,6 +37,7 @@ const useInfinite = (isClick = true, newParams = {}) => {
   };
 
   useEffect(() => {
+    console.log('hihi', offset);
     getItems(true);
   }, [isClick]);
 
