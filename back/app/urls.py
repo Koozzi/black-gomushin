@@ -22,6 +22,4 @@ urlpatterns = [
 
     path('test/', views_test.fulltext_new_item, name="test"),
     path('test_search/', views_test.fulltext_search, name="test_search"),
-
-    path('admins/users/', views_user.users, name="users"),
 ]
