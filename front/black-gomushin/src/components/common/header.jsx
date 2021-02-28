@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,6 +16,7 @@ import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDownCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import refresh from '../../utils/refresh';
 import logout from '../../utils/logout';
+import { getAxios } from '../../utils/axios';
 
 const InputBaseBox = styled(InputBase)`
   &.MuiInputBase-root {
@@ -75,7 +76,17 @@ const SectionMobile = styled.div`
 const Header = () => {
   const history = useHistory();
   const [popup, setPopup] = useState(null);
+  const [userName, setUserName] = useState(null);
   const popupOpen = Boolean(popup);
+
+  const getUserName = async () => {
+    try {
+      const { data } = await getAxios('/profile');
+      setUserName(data.username);
+    } catch (error) {
+      setUserName('None');
+    }
+  };
 
   const detailMenuClose = () => {
     setPopup(null);
@@ -128,6 +139,10 @@ const Header = () => {
     }
   };
 
+  useEffect(() => {
+    getUserName();
+  }, [userName]);
+
   return (
     <FlexGrowContainer>
       <AppBar position="static" style={{ background: '#9290dd' }}>
@@ -162,7 +177,7 @@ const Header = () => {
           </SectionDesktop>
           <SectionMobile>
             <IconButton onClick={detailMenuOpen} color="inherit">
-              <p>Zigje9</p>
+              <p>{userName}</p>
               <ArrowDropDownCircleIcon />
             </IconButton>
           </SectionMobile>

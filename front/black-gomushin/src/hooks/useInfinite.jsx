@@ -37,7 +37,6 @@ const useInfinite = (isClick = true, newParams = {}) => {
   };
 
   useEffect(() => {
-    console.log('hihi', offset);
     getItems(true);
   }, [isClick]);
 
