@@ -10,10 +10,12 @@ def validation_token(request):
         request_header = request.META['HTTP_AUTHORIZATION']
 
         _type, user_token = request_header.split()
+        print("Request Token : ", user_token)
         
         try:
             user = Token.objects.get(key=user_token)
             user = user.user
+            print("user's id : ", user.id)
 
             result = {
                 "type": _type,
