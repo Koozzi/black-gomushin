@@ -8,7 +8,7 @@ def validation_token(request):
             return Response({ "invalid_token": "Invalid Token" })
 
         request_header = request.META['HTTP_AUTHORIZATION']
-
+        print(request_header)
         _type, user_token = request_header.split()
         
         try:
