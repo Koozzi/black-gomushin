@@ -9,6 +9,7 @@ def test_get_search_item_by_keyword(keyword):
     print("=============================================")
     print("Search API Test by Keyword [Keyword : {0}]".format(keyword), end=" ")
     endpoint = "http://3.34.127.185:8000/search/?offset=0&limit=5&size=260&keyword={0}".format(keyword)
+    print(endpoint)
     headers = {"Authorization": "Bearer {0}".format(TOKEN)}
     response = requests.get(endpoint, headers=headers)
     
