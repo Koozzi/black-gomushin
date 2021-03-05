@@ -1,0 +1,38 @@
+node {
+    stage('SCM Checkout'){
+        echo "Get code from github ... "
+        git branch: 'dev-be', credentialsId: 'koozzi', url: 'https://github.com/Koozzi/black-gomushin'
+    }
+    
+    stage('Docker Build'){
+        echo "Build docker image ... "
+        sh '''
+            cd back 
+            docker build -t koozzi666/dev-gomushin-back .
+        '''
+    }
+    
+    stage('Push image') {
+        echo "Push docker image ... "
+        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
+            sh "docker login -u $USER -p $PASSWORD"
+            sh "docker push koozzi666/dev-gomushin-back"
+        }
+    }
+
+    stage('Docker Deploy'){
+        echo "Run container on remote EC2 instance ... "
+        sshagent(credentials: ['ssh-backend']) {
+            sh "ssh -o StrictHostKeyChecking=no ubuntu@10.0.0.79 sudo docker rm -f dev-gomushin-back | true"
+            sh "ssh -o StrictHostKeyChecking=no ubuntu@10.0.0.79 sudo docker pull koozzi666/dev-gomushin-back"
+            withCredentials([string(credentialsId: 'gomushin-db', variable: 'DB_PASSWORD')]) {
+                sh "ssh -o StrictHostKeyChecking=no ubuntu@10.0.0.79 sudo docker run --name dev-gomushin-back -tid -e PASSWORD=$DB_PASSWORD -p 8000:8000 koozzi666/dev-gomushin-back"
+            }
+        }
+    }
+
+    stage('Test'){
+        echo "Run API test code ... "
+        // 만약에 테스트에 통과하지 못한다면 Remote EC2 instance에서 실행중인 container을 강제종료한다.
+    }
+}
