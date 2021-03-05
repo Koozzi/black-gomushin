@@ -15,7 +15,7 @@ def test_get_user_detail_by_id(user_id):
     if response.status_code != 200:
         print("..... Error")
         print(response.text)
-        exit()
+        exit(1)
     print("..... Good")
     print("Test execution time : ", time.time() - start_time)
 
@@ -31,7 +31,7 @@ def test_get_user_detail_by_token():
     if response.status_code != 200:
         print("..... Error")
         print(response.text)
-        exit()
+        exit(1)
     print("..... Good")
     print("Test execution time : ", time.time() - start_time)
 

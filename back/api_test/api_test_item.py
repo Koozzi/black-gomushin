@@ -15,7 +15,7 @@ def test_get_search_item_by_keyword(keyword):
     if response.status_code != 200:
         print("..... Error")
         print(response.text)
-        exit()
+        exit(1)
     print("..... Good")
     print("Test execution time : ", time.time() - start_time)
 
@@ -31,7 +31,7 @@ def test_get_item_detail_by_id(item_id):
     if response.status_code != 200:
         print("..... Error")
         print(response.text)
-        exit()
+        exit(1)
     print("..... Good")
     print("Test execution time : ", time.time() - start_time)
 
