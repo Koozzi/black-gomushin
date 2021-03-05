@@ -6,11 +6,12 @@ def validation_token(request):
 
         if 'HTTP_AUTHORIZATION' not in request.META:
             return Response({ "invalid_token": "Invalid Token" })
-
-        request_header = request.META['HTTP_AUTHORIZATION']
-        print(request_header)
-        _type, user_token = request_header.split()
-        
+        request_header = ""
+        try:
+            request_header = request.META['HTTP_AUTHORIZATION']
+            _type, user_token = request_header.split()
+        except:
+            print(request_header)
         try:
             user = Token.objects.get(key=user_token)
             user = user.user
