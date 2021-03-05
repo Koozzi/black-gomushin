@@ -7,9 +7,7 @@ def validation_token(request):
         if 'HTTP_AUTHORIZATION' not in request.META:
             return Response({ "invalid_token": "Invalid Token" })
         
-        print("In middleware")
         request_header = request.META['HTTP_AUTHORIZATION']
-        print(request_header)
         _type, user_token = request_header.split()
         
         try:
