@@ -1,3 +1,1 @@
-1. Test python 코드를 순차적으로 돌린다.
-2. python코드가 종료되는 상태에 따라서 Jenkins가 오류를 발생한다.
-3. 그리고 pipeline 종료
+https://stackoverflow.com/questions/23013220/max-retries-exceeded-with-url-in-requests
